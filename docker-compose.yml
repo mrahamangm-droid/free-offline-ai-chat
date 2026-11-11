@@ -1,0 +1,38 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: offline-ai-chat-ollama
+    restart: unless-stopped
+    volumes:
+      - ollama-models:/root/.ollama
+    ports:
+      # Exposed on localhost only so the model API isn't reachable from the LAN.
+      - "127.0.0.1:11434:11434"
+    # Uncomment to use an NVIDIA GPU (requires the NVIDIA Container Toolkit):
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  app:
+    build: .
+    container_name: offline-ai-chat-app
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_HOST_URL=http://ollama:11434
+      - APP_DATA_DIR=/app/data
+    volumes:
+      - app-data:/app/data
+    ports:
+      # localhost-only by default — see README "LAN access" before changing
+      # this to "0.0.0.0:3000:3000" or "3000:3000" to expose it on your network.
+      - "127.0.0.1:3000:3000"
+
+volumes:
+  ollama-models:
+  app-data:

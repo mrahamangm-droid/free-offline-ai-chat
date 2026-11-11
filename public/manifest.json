@@ -1,0 +1,16 @@
+{
+  "name": "Offline AI Chat",
+  "short_name": "Offline AI Chat",
+  "description": "Free, private, offline-first AI chat powered by local open-source models.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1b1b1d",
+  "theme_color": "#1b1b1d",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
